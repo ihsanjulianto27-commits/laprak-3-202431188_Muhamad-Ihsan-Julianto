@@ -1,6 +1,4 @@
 <?php
-//logika pemrosesan form penilaian mahasiswa
-//Deklarasi variabel
 $nama = $nim = "";
 $absen = $tugas = $uts = $uas = "";
 $hasil_html = ""; 
@@ -8,23 +6,18 @@ $pesan_error = "";
 $header_class = "bg-primary"; 
 $btn_class = "btn-primary";   
 
-//Pemicu proses saat tombol submit ditekan
 if (isset($_POST['proses'])) {
-    //Mengambil data dari form
-    //trim digunakan untuk menghilangkan spasi berlebih
     $nama = trim($_POST['nama']); 
     $nim = trim($_POST['nim']);
     $absen = $_POST['kehadiran']; 
     $tugas = $_POST['tugas'];
     $uts = $_POST['uts'];
     $uas = $_POST['uas'];
-    //202431188_Muhamad Ihsan Julianto//
 
-    //Validasi input
     if ($nama === "" || $nim === "" || $absen === "" || $tugas === "" || $uts === "" || $uas === "") {
         $pesan_error = "Semua kolom harus diisi!";
     } 
-    else {  //202431188_Muhamad Ihsan Julianto//
+    else {  
         
         $absen_val = floatval($absen);
         $tugas_val = floatval($tugas);
@@ -33,20 +26,17 @@ if (isset($_POST['proses'])) {
 
         $nilai_akhir = ($absen_val * 0.1) + ($tugas_val * 0.2) + ($uts_val * 0.3) + ($uas_val * 0.4);//100% = nilai_akhir
 
-        //menentukan grade berdasarkan nilai akhir
         if ($nilai_akhir >= 85) $grade = 'A';
         elseif ($nilai_akhir >= 70) $grade = 'B';
         elseif ($nilai_akhir >= 55) $grade = 'C';
         elseif ($nilai_akhir >= 40) $grade = 'D';
         else $grade = 'E';
 
-        //menentukan status lulus atau tidak
         $lulus = true;
         if ($absen_val < 70 || $nilai_akhir < 60 || $tugas_val < 40 || $uts_val < 40 || $uas_val < 40) {
             $lulus = false;
         }
 
-        //menyiapkan teks dan warna berdasarkan status kelulusan
         if ($lulus) {
             $status_text = "LULUS";
             $alert_color = "alert-success"; 
@@ -57,7 +47,6 @@ if (isset($_POST['proses'])) {
             $btn_class = "btn-danger";
         }
 
-        //Membuat output hasil penilaian dalam format HTML
         $hasil_html = "
         <div class='alert $alert_color mt-4 shadow-sm' role='alert'>
             <h4 class='alert-heading'>Hasil Penilaian</h4>
@@ -68,12 +57,11 @@ if (isset($_POST['proses'])) {
             <p class='mb-1'><strong>Grade:</strong> $grade</p>
             <p class='mb-0'><strong>Status:</strong> <span class='fw-bold'>$status_text</span></p>
         </div>
-        "; ///202431188_Muhamad Ihsan Julianto///
+        "; 
     }
 }
 ?>
 
-//Bagian tampilan form penilaian mahasiswa dalam HTML
 <!DOCTYPE html>
 <html lang="id">
 <head>  
